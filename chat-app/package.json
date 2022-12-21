@@ -8,7 +8,7 @@
     "preview": "vite preview",
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit",
-    "deploy": "node chat-app/scripts/gh-pages-deploy.js"
+    "deploy": "node scripts/pages-deploy.js"
   },
   "dependencies": {
     "execa": "5.1.1",
