@@ -7,11 +7,9 @@
     "build": "run-p type-check build-only",
     "preview": "vite preview",
     "build-only": "vite build",
-    "type-check": "vue-tsc --noEmit",
-    "deploy": "node scripts/pages-deploy.js"
+    "type-check": "vue-tsc --noEmit"
   },
   "dependencies": {
-    "execa": "5.1.1",
     "firebase": "^9.15.0",
     "vue": "^3.2.45",
     "vue-router": "^4.1.6"
