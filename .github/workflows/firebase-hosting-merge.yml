@@ -18,3 +18,4 @@ jobs:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_CHAT_APP_1609D }}'
           channelId: live
           projectId: chat-app-1609d
+          entryPoint: "chat-app"
