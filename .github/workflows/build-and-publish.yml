@@ -13,7 +13,7 @@ jobs:
         with:
           node-version: '18'
       - name: Install packages
-        run: npm i
+        run: cd chat-app && npm i
       - name: Set Creds
         run: git config user.name "brokiem" && git config user.email "${{ secrets.EMAIL }}"
       - name: Deploy
