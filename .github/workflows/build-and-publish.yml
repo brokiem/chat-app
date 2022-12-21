@@ -5,7 +5,7 @@ on:
       - master
 jobs:
   gh-pages-deploy:
-    name: Deploying to Github Pages
+    name: Deploying to Pages
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -17,4 +17,4 @@ jobs:
       - name: Set Creds
         run: git config user.name "brokiem" && git config user.email "${{ secrets.EMAIL }}"
       - name: Deploy
-        run: npm run deploy
+        run: cd chat-app && npm run deploy
