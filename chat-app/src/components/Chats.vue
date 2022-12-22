@@ -6,19 +6,24 @@
           <span class="text-lg font-medium text-gray-700 dark:text-white">{{activeChannel?.title ?? "undefined"}}</span>
         </nav>
 
-        <div class="h-[calc(100vh-120px)] flex flex-col overflow-y-scroll">
-          <Chat v-if="isLoaded" v-for="{text, photoURL, displayName} in messages" class="mt-4"
+        <div class="h-[calc(100vh-96px)] overflow-y-scroll">
+          <div class="mt-5"></div>
+
+          <Chat v-if="isLoaded" v-for="({uid, text, photoURL, displayName}, index) in messages" :class="[(index > 0) && messages[index - 1].uid !== uid ? 'mt-4' : '']"
+                :headless="(index > 0) && messages[index - 1].uid === uid"
                 :author="displayName"
                 :photo-u-r-l="photoURL"
                 :message="text"
           ></Chat>
 
-          <div ref="dummy" class="mt-5"></div>
+          <div ref="dummy" class="mt-4"></div>
         </div>
 
-        <form @submit.prevent="onSubmit" class="bottom-0 mb-6 ml-4 mr-4 sticky bg-[#2B313A] rounded-lg z-20">
-          <input type="text" id="input-message" class="block p-3 text-sm text-gray-900 w-full outline-none rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Message" autocomplete="off" required>
-        </form>
+        <div class="bg-gray-50 dark:bg-gray-700">
+          <form @submit.prevent="onSubmit" class="bottom-0 ml-5 mr-5 sticky bg-gray-50 dark:bg-gray-700 rounded-lg z-20">
+            <input type="text" id="input-message" class="block p-3 text-sm text-gray-900 w-full outline-none rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Type a message" autocomplete="off" required>
+          </form>
+        </div>
       </div>
     </div>
   </main>

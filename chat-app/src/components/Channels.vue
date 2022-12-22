@@ -5,7 +5,7 @@
         <span class="text-lg font-medium text-gray-700 dark:text-white">{{activeGroup?.title ?? "undefined"}}</span>
       </div>
 
-      <ul class="w-[220px] px-2 pt-4">
+      <ul class="w-[230px] px-2 pt-4">
         <Channel v-for="channel in channels"
                  :group-id="activeGroup.id"
                  :id="channel.id"
