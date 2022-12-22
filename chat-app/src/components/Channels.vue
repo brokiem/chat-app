@@ -7,6 +7,7 @@
 
       <ul class="w-[220px] px-2 pt-4">
         <Channel v-for="channel in channels"
+                 :group-id="activeGroup.id"
                  :id="channel.id"
                  :title="channel.title">
         </Channel>

@@ -97,6 +97,14 @@ export function useGroup() {
         return groupsSnap.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
     }
 
+    const getGroup = async (id: string) => {
+        const groupsRef = collection(db, "groups");
+        const q = query(groupsRef, where("__name__", "==", id));
+        const groupsSnap = await getDocs(q);
+
+        return groupsSnap.docs.map((doc) => ({id: doc.id, ...doc.data()}))[0];
+    }
+
     const subscribeGroups = async () => {
         const groupsRef = collection(db, "groups");
         const q = query(groupsRef);
@@ -111,5 +119,5 @@ export function useGroup() {
         return groups
     }
 
-    return { getGroups, subscribeGroups }
+    return { getGroup, getGroups, subscribeGroups }
 }

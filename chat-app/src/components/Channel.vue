@@ -8,6 +8,10 @@
 export default {
   name: "Channel",
   props: {
+    groupId: {
+      type: String,
+      required: true
+    },
     id: {
       type: String,
       required: true
@@ -19,6 +23,11 @@ export default {
   },
   methods: {
     selectChannel: function () {
+      // set selected channel on this channel group
+      let channels = localStorage.getItem("groups") !== null ? JSON.parse(localStorage.getItem("groups")) : {}
+      channels = {...channels, [this.groupId]: {selectedChannel: this.id, title: this.title}}
+      localStorage.setItem("groups", JSON.stringify(channels))
+
       localStorage.setItem("selectedChannel", JSON.stringify({
         id: this.id,
         title: this.title
