@@ -6,11 +6,10 @@
       </div>
 
       <ul class="w-[220px] px-2 pt-4">
-        <li class="text-white bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-md text-sm mt-0.5 px-2 py-1 dark:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 cursor-pointer"
-          v-for="channel in channels">
-
-          {{channel.title}}
-        </li>
+        <Channel v-for="channel in channels"
+                 :id="channel.id"
+                 :title="channel.title">
+        </Channel>
       </ul>
     </div>
   </main>
@@ -18,9 +17,11 @@
 
 <script>
 import {useChannel, useGroup} from "@/firebase/firebase";
+import Channel from "@/components/Channel.vue";
 
 export default {
-  name: "CategoryMenu",
+  name: "Channels",
+  components: {Channel},
   setup() {
     const { subscribeChannels } = useChannel()
     const { getGroups } = useGroup()

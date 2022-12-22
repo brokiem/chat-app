@@ -43,12 +43,17 @@ export default {
     return {
       isLoaded: false,
       activeGroup: null,
-      activeChannel: null,
+      activeChannel: {
+        id: null,
+        title: null
+      },
       messages: []
     }
   },
   created() {
-    if (this.activeGroup == null) {
+    this.activeChannel = JSON.parse(localStorage.getItem("selectedChannel"))
+
+    if (this.activeChannel == null) {
       this.getGroups().then(groups => {
         this.activeGroup = groups[0]
 
@@ -56,21 +61,32 @@ export default {
           this.getChannels(this.activeGroup.id).then(channels => {
             this.activeChannel = channels[0]
 
-            useMessage().subscribeMessages(this.activeChannel.id).then(messages => {
+            this.subscribeMessages(this.activeChannel.id).then(messages => {
               this.messages = messages
               this.isLoaded = true
             })
           })
         }
       })
+    } else {
+      this.subscribeMessages(this.activeChannel.id).then(messages => {
+        this.messages = messages
+        this.isLoaded = true
+      })
     }
+  },
+  mounted() {
+    window.addEventListener("storage", this.onStorageChange)
+  },
+  beforeDestroy() {
+    window.removeEventListener("storage", this.onStorageChange)
   },
   watch: {
     messages() {
       this.$nextTick(() => {
         this.$refs?.dummy?.scrollIntoView({ behavior: "smooth" })
       })
-    }
+    },
   },
   methods: {
     onSubmit() {
@@ -79,6 +95,21 @@ export default {
       this.sendMessage(this.activeChannel.id, this.user.uid, this.user.displayName, this.user.photoURL, input.value)
 
       input.value = ""
+    },
+    onStorageChange: function (event) {
+      if (event.key === "selectedChannel") {
+        const channel = JSON.parse(event.newValue)
+
+        if (channel.id !== this.activeChannel.id) {
+          this.switchChannel(channel)
+        }
+      }
+    },
+    switchChannel(channel) {
+      this.activeChannel = channel
+      this.subscribeMessages(channel.id).then(messages => {
+        this.messages = messages
+      })
     }
   }
 }

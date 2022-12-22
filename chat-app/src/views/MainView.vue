@@ -1,18 +1,18 @@
 <script>
 import Groups from "@/components/Groups.vue";
 import Chats from "@/components/Chats.vue";
-import CategoryMenu from "@/components/CategoryMenu.vue";
+import Channels from "@/components/Channels.vue";
 
 export default {
   name: "MainView",
-  components: {CategoryMenu, Chats, Groups}
+  components: {Channels, Chats, Groups}
 }
 </script>
 
 <template>
   <div class="relative flex h-screen">
     <Groups/>
-    <CategoryMenu/>
+    <Channels/>
     <Chats class="grow"/>
   </div>
 </template>
