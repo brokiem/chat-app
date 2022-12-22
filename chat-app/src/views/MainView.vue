@@ -10,7 +10,7 @@ export default {
 </script>
 
 <template>
-  <div class="relative flex">
+  <div class="relative flex h-screen">
     <Groups/>
     <CategoryMenu/>
     <Chats class="grow"/>
