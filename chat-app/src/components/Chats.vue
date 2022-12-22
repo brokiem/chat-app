@@ -17,7 +17,7 @@
         </div>
 
         <form @submit.prevent="onSubmit" class="bottom-0 mb-6 ml-4 mr-4 sticky bg-[#2B313A] rounded-lg z-20">
-          <input type="text" id="input-message" class="block p-3 text-sm text-gray-900 w-full outline-none rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Message" required>
+          <input type="text" id="input-message" class="block p-3 text-sm text-gray-900 w-full outline-none rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Message" autocomplete="off" required>
         </form>
       </div>
     </div>
@@ -51,6 +51,7 @@ export default {
     }
   },
   created() {
+    this.activeGroup = JSON.parse(localStorage.getItem("selectedGroup"))
     this.activeChannel = JSON.parse(localStorage.getItem("selectedChannel"))
 
     if (this.activeChannel == null) {

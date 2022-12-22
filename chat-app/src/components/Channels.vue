@@ -35,6 +35,8 @@ export default {
     }
   },
   created() {
+    this.activeGroup = JSON.parse(localStorage.getItem("selectedGroup"))
+
     if (this.activeGroup == null) {
       this.getGroups().then(groups => {
         this.activeGroup = groups[0]
@@ -42,6 +44,35 @@ export default {
         this.subscribeChannels(this.activeGroup.id).then(channels => {
           this.channels = channels
         })
+      })
+    } else {
+      this.subscribeChannels(this.activeGroup.id).then(channels => {
+        this.channels = channels
+      })
+    }
+  },
+  mounted() {
+    window.addEventListener("storage", this.onStorageChange)
+  },
+  beforeDestroy() {
+    window.removeEventListener("storage", this.onStorageChange)
+  },
+  methods: {
+    onStorageChange: function (event) {
+      if (event.key === "selectedGroup") {
+        const group = JSON.parse(event.newValue)
+
+        if (group.id !== this.activeGroup.id) {
+          this.switchGroup(group)
+        }
+      }
+    },
+    switchGroup(group) {
+      this.activeGroup = group
+      localStorage.setItem("selectedGroup", JSON.stringify(group))
+
+      this.subscribeChannels(group.id).then(channels => {
+        this.channels = channels
       })
     }
   }
