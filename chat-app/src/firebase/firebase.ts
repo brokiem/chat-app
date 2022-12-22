@@ -48,7 +48,7 @@ export function useMessage() {
 
     const subscribeMessages = async (channel: string) => {
         const messagesRef = collection(db, "messages");
-        const q = query(messagesRef, where("channel", "==", channel), orderBy("createdAt"), limit(50));
+        const q = query(messagesRef, where("channel", "==", channel), orderBy("createdAt"));
 
         const messages = ref([]);
         const unsubscribe = onSnapshot(q, (snapshot) => {

@@ -13,7 +13,7 @@
                 :message="text"
           ></Chat>
 
-          <div ref="dummy"></div>
+          <div ref="dummy" class="mt-5"></div>
         </div>
 
         <form @submit.prevent="onSubmit" class="bottom-0 mb-6 ml-4 mr-4 sticky bg-[#2B313A] rounded-lg z-20">
