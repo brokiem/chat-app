@@ -6,8 +6,8 @@
           <span class="text-lg font-medium text-gray-700 dark:text-white">{{activeChannel?.title ?? "undefined"}}</span>
         </nav>
 
-        <div class="h-[80vh] flex flex-col ml-6 overflow-y-scroll">
-          <Chat v-if="isLoaded" v-for="{text, photoURL, displayName} in messages"
+        <div class="h-[80vh] flex flex-col overflow-y-scroll">
+          <Chat v-if="isLoaded" v-for="{text, photoURL, displayName} in messages" class="mt-4"
                 :author="displayName"
                 :photo-u-r-l="photoURL"
                 :message="text"
