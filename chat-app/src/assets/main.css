@@ -15,4 +15,25 @@
         -ms-overflow-style: none; /* IE and Edge */
         scrollbar-width: none; /* Firefox */
     }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+        width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 0.5rem;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: #646464;
+        border-radius: 0.5rem;
+    }
+    /* Mozilla */
+    body {
+        scrollbar-color: #888 transparent;
+        scrollbar-width: thin
+    }
 }
