@@ -48,4 +48,10 @@
             opacity: 1;
         }
     }
+
+    hr.rounded {
+        border-top: 1px solid #989898;
+        border-radius: 1px;
+        opacity: 0.3;
+    }
 }

@@ -1,12 +1,14 @@
 <template>
   <main>
-    <div class="bg-gray-700/60 h-[100%]">
+    <div class="bg-gray-2 h-[100%]">
       <div class="flex flex-col overflow-y-auto">
-        <nav class="bg-gray-700 sticky p-3 top-0 w-full z-20">
+        <nav class="bg-gray-1 sticky p-3 top-0 w-full z-20">
           <span class="text-lg font-medium text-gray-700 dark:text-white">{{activeChannel?.title ?? " "}}</span>
         </nav>
 
-        <div class="h-[calc(100vh-96px)] overflow-y-scroll">
+        <hr class="rounded">
+
+        <div class="h-[calc(100vh-98px)] overflow-y-scroll">
           <div class="mt-5"></div>
 
           <Chat v-if="isLoaded" v-for="({uid, text, photoURL, displayName}, index) in messages" :class="[(index > 0) && messages[index - 1].uid !== uid ? 'mt-4' : '']" class="fade-in"
@@ -19,9 +21,9 @@
           <div ref="dummy" class="mt-4"></div>
         </div>
 
-        <div class="bg-gray-50 dark:bg-gray-700">
-          <form @submit.prevent="onSubmit" class="bottom-0 ml-5 mr-5 sticky bg-gray-50 dark:bg-gray-700 rounded-lg z-20">
-            <input type="text" id="input-message" class="block p-3 text-sm text-gray-900 w-full outline-none rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Type a message" autocomplete="off" required>
+        <div class="bg-gray-1 dark:bg-gray-1">
+          <form @submit.prevent="onSubmit" class="bottom-0 ml-5 mr-5 sticky bg-gray-1 dark:bg-gray-1 rounded-lg z-20">
+            <input type="text" id="input-message" class="block p-3 text-sm text-gray-900 w-full outline-none rounded-lg bg-gray-1 dark:bg-gray-1 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Type a message" autocomplete="off" required>
           </form>
         </div>
       </div>

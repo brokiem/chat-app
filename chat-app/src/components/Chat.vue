@@ -10,7 +10,7 @@
         <div class="ml-4">
           <div class="flex flex-col space-y-2 max-w-[65vw] items-start">
             <div>
-              <span class="px-3 py-1.5 rounded-md inline-block rounded-tl-none bg-gray-300 text-gray-700">
+              <span class="px-3 py-1.5 rounded-md inline-block rounded-tl-none bg-gray-4 text-white/90">
                 {{message}}
               </span>
             </div>
@@ -22,7 +22,7 @@
     <div v-if="headless" class="ml-20 flex flex-nowrap flex-col">
       <div class="flex flex-col max-w-[65vw] items-start">
         <div>
-          <span class="px-3 py-1.5 rounded-md inline-block bg-gray-300 text-gray-700">
+          <span class="px-3 py-1.5 rounded-md inline-block bg-gray-4 text-white/90">
             {{message}}
           </span>
         </div>

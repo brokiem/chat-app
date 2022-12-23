@@ -1,5 +1,5 @@
 <template>
-  <ul class="max-h-screen space-y-2 bg-gray-900 p-2 overflow-y-auto overflow-x-hidden max-w-[65px] no-scrollbar">
+  <ul class="max-h-screen space-y-2 bg-gray-2 p-2 overflow-y-auto overflow-x-hidden max-w-[65px] no-scrollbar">
     <Group v-for="group in groups"
            :id="group.id"
            :title="group.title">
