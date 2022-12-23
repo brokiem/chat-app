@@ -10,7 +10,7 @@
 
         <hr class="rounded">
 
-        <div class="h-[calc(100vh-98px)] overflow-y-scroll">
+        <div class="h-[calc(100vh-110px)] overflow-y-scroll">
           <div class="mt-5"></div>
 
           <Chat v-if="isLoaded" v-for="({uid, text, photoURL, displayName}, index) in messages" :class="[(index > 0) && messages[index - 1].uid !== uid ? 'mt-4' : '']" class="fade-in"
@@ -23,17 +23,23 @@
           <div ref="dummy" class="mt-6"></div>
         </div>
 
-        <EmojiPicker v-if="showEmojiPicker" :native="true" display-recent="true" @select="onEmojiSelect" class="fade-in duration-300 absolute right-7 bottom-16"/>
+        <EmojiPicker v-if="showEmojiPicker" :native="true" display-recent="true" @select="onEmojiSelect" class="fade-in duration-300 absolute right-4 bottom-16"/>
 
         <div class="bg-gray-1 dark:bg-gray-1">
-          <form @submit.prevent="onSubmit" class="bottom-0 ml-5 mr-5 sticky bg-gray-1 dark:bg-gray-1 rounded-lg z-20">
-            <input type="text" id="input-message" class="block p-3 text-sm text-gray-900 w-full outline-none rounded-lg bg-gray-1 dark:bg-gray-1 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Type a message" autocomplete="off" required>
-            <div class="absolute right-0 items-center inset-y-0 hidden sm:flex">
+          <form @submit.prevent="onSubmit" class="flex bottom-0 right-0 left-[274px] ml-5 fixed bg-gray-1 dark:bg-gray-1 rounded-t-sm z-20">
+            <div class="left-0 ml-4 items-center inset-y-0 hidden sm:flex">
+              <!-- Embed file button -->
               <button type="button" class="inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-200 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6 text-gray-600">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path>
                 </svg>
               </button>
+            </div>
+
+            <textarea type="text" rows="1" id="input-message" class="block p-3 ml-3 placeholder:leading-8 text-sm text-gray-900 w-full outline-none rounded-t-sm resize-none bg-gray-1 dark:bg-gray-1 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Type a message" autocomplete="off" required></textarea>
+
+            <div class="right-0 mr-4 items-center inset-y-0 hidden sm:flex">
+              <!-- Emoji picker button -->
               <button type="button" @click="showEmojiPicker = !showEmojiPicker" :class="[showEmojiPicker ? 'bg-gray-300' : '']" class="inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-200 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6 text-gray-600">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -103,6 +109,32 @@ export default {
   },
   mounted() {
     window.addEventListener("storage", this.onStorageChange)
+
+    document.querySelectorAll('textarea').forEach( element => {
+      // CAREFUL!! -> THIS IS VERY HACKY WAY IM SO SORRY!
+      element.style.height = `${element.scrollHeight}px`;
+      element.addEventListener('input', event => {
+        event.target.style.height = 'auto';
+        event.target.style.height = `${event.target.scrollHeight}px`;
+
+        if (parseInt(event.target.style.height.replaceAll('px', '')) > 344) {
+          event.target.style.height = 'auto';
+          event.target.style.height = `344px`;
+        }
+      })
+      // END OF HACKY WAY
+
+      element.addEventListener("keypress", event => {
+        // key 13 is enter key
+        if((!this.isStringEmpty(event.target.value)) && event.which === 13 && !event.shiftKey){
+          this.onSubmit();
+          event.preventDefault();
+
+          event.target.style.height = 'auto';
+          event.target.style.height = `${event.target.scrollHeight}px`;
+        }
+      });
+    })
   },
   beforeDestroy() {
     window.removeEventListener("storage", this.onStorageChange)
@@ -142,6 +174,9 @@ export default {
       this.subscribeMessages(channel.id).then(messages => {
         this.messages = messages
       })
+    },
+    isStringEmpty(str) {
+      return !str.trim().length;
     }
   }
 }
