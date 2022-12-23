@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import {computed, onUnmounted, ref} from "vue";
+import {computed, watchEffect, ref} from "vue";
 import {getAuth, GoogleAuthProvider, signInWithPopup} from "firebase/auth"
 import { getFirestore, collection, doc, addDoc, getDocs, serverTimestamp, query, where, limit, orderBy, onSnapshot } from "firebase/firestore";
 
@@ -19,7 +19,9 @@ export function useAuth() {
     const user = ref(null)
     // @ts-ignore
     const unsubscribe = auth.onAuthStateChanged(_user => (user.value = _user))
-    onUnmounted(unsubscribe)
+    watchEffect((onInvalidate) => {
+        onInvalidate(() => unsubscribe())
+    })
 
     const isLogin = computed(() => user.value !== null)
 
@@ -55,7 +57,9 @@ export function useMessage() {
             // @ts-ignore
             messages.value = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
         })
-        onUnmounted(unsubscribe)
+        watchEffect((onInvalidate) => {
+            onInvalidate(() => unsubscribe())
+        })
 
         return messages
     }
@@ -81,7 +85,9 @@ export function useChannel() {
             // @ts-ignore
             channels.value = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
         })
-        onUnmounted(unsubscribe)
+        watchEffect((onInvalidate) => {
+            onInvalidate(() => unsubscribe())
+        })
 
         return channels
     }
@@ -130,7 +136,9 @@ export function useGroup() {
             // @ts-ignore
             groups.value = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
         })
-        onUnmounted(unsubscribe)
+        watchEffect((onInvalidate) => {
+            onInvalidate(() => unsubscribe())
+        })
 
         return groups
     }
