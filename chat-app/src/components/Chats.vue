@@ -11,7 +11,19 @@
         <hr class="rounded">
 
         <div class="h-[calc(100vh-110px)] overflow-y-scroll">
-          <div class="mt-5"></div>
+          <div class="mt-8"></div>
+
+          <div class="flex flex-nowrap flex-col items-center">
+            <div class="flex flex-col max-w-[65vw] items-start">
+              <div>
+                <span class="px-4 py-1.5 w-80 rounded-md inline-block bg-gray-4 text-white/90 text-center">
+                  Welcome to {{activeChannel?.title ?? 'undefined'}}!
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6"></div>
 
           <Chat v-if="isLoaded" v-for="({uid, text, photoURL, displayName}, index) in messages" :class="[(index > 0) && messages[index - 1].uid !== uid ? 'mt-4' : '']" class="fade-in"
                 :headless="(index > 0) && messages[index - 1].uid === uid"
