@@ -6,7 +6,10 @@
       </div>
 
       <div class="flex flex-nowrap flex-col space-y-1">
-        <span class="ml-4 text-md leading-none">{{author}}</span>
+        <span class="ml-4 text-md leading-none">{{author}}
+          <span class="ml-3 leading-none text-xs">{{dateFormat + ' ' + timeFormat}}</span>
+        </span>
+
         <div class="ml-4">
           <div class="flex flex-col space-y-2 max-w-[65vw] items-start">
             <div>
@@ -19,12 +22,13 @@
       </div>
     </div>
 
-    <div v-if="headless" class="ml-20 flex flex-nowrap flex-col">
+    <div v-if="headless" class="ml-20" @mouseover="isHovered = true" @mouseout="isHovered = false">
       <div class="flex flex-col max-w-[65vw] items-start">
         <div>
           <span class="px-3 py-1.5 rounded-md inline-block bg-gray-4 text-white/90">
             {{message}}
           </span>
+          <span v-if="isHovered" class="inline ml-2 leading-none text-xs">{{timeFormat}}</span>
         </div>
       </div>
     </div>
@@ -50,7 +54,29 @@ export default {
     message: {
       type: String,
       required: true
+    },
+    createdAt: {
+      required: true
     }
+  },
+  setup(props) {
+    // compensation for firestore timestamp not immediately updated
+    const d = props.createdAt == null ? new Date() : props.createdAt.toDate()
+    const timeFormat = [
+      d.getHours().toString().length <= 1 ? '0' + d.getHours() : d.getHours(),
+      d.getMinutes().toString().length <= 1 ? '0' + d.getMinutes() : d.getMinutes()
+    ].join(':')
+
+    const dateFormat = [
+      d.getMonth() + 1,
+      d.getDate(),
+      d.getFullYear()
+    ].join('/')
+
+    return {dateFormat, timeFormat}
+  },
+  data() {
+    return {isHovered: false}
   }
 }
 </script>

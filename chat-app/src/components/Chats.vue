@@ -25,12 +25,13 @@
 
           <div class="mt-6"></div>
 
-          <Chat v-if="isLoaded" v-for="({uid, text, photoURL, displayName}, index) in messages" :class="[(index > 0) && messages[index - 1].uid !== uid ? 'mt-4' : '']" class="fade-in"
-                :headless="(index > 0) && messages[index - 1].uid === uid"
+          <Chat v-if="isLoaded" v-for="({uid, text, photoURL, displayName, createdAt}, index) in messages" :class="[(index > 0) && messages[index - 1].uid !== uid ? 'mt-4' : '']" class="fade-in"
+                :headless="(index > 0) && (messages[index - 1].uid === uid)"
                 :author="displayName"
                 :photo-u-r-l="photoURL"
                 :message="text"
-          ></Chat>
+                :createdAt="createdAt">
+          </Chat>
 
           <div ref="dummy" class="mt-6"></div>
         </div>
