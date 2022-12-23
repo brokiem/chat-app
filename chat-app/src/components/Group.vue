@@ -1,5 +1,5 @@
 <template>
-  <li @click="selectGroup" :class="[isActive ? 'bg-blue-500' : '']" class="select-none bg-gray-700 rounded-lg w-12 h-12 flex justify-center items-center hover:bg-blue-500 transition duration-200 cursor-pointer">
+  <li @click="selectGroup" :class="[isActive ? 'bg-blue-500 text-gray-100' : '']" class="select-none bg-gray-700 hover:text-gray-200 rounded-lg w-12 h-12 flex justify-center items-center hover:bg-blue-500 transition duration-200 cursor-pointer">
     {{title.slice(0, 2).toUpperCase() ?? "un"}}
   </li>
 </template>
