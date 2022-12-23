@@ -2,7 +2,7 @@
   <main>
     <div class="bg-gray-1 h-[100%]">
       <div class="bg-gray-1 p-3">
-        <span class="text-lg font-medium text-gray-700 dark:text-white">{{activeGroup?.title ?? " "}}</span>
+        <span class="select-none text-lg font-medium text-gray-700 dark:text-white">{{activeGroup?.title ?? " "}}</span>
       </div>
       <hr class="rounded">
 
