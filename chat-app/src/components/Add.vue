@@ -15,10 +15,10 @@
             <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
               <h3 class="text-xl text-center font-medium leading-6 text-gray-900" id="modal-title">Create a server</h3>
               <div class="mt-8">
-                <form>
+                <form @submit.prevent>
                   <label for="server-input" class="text-gray-900">Server name</label>
                   <div class="relative w-full">
-                    <input type="text" id="server-input" class="bg-gray-50 border border-gray-400 text-gray-900 text-sm rounded-md outline-none block w-full p-2.5 dark:placeholder-gray-400" placeholder="Your server name" required>
+                    <input type="text" id="server-input" class="bg-gray-50 border border-gray-400 text-gray-900 text-sm rounded-md outline-none block w-full p-2.5 dark:placeholder-gray-400" placeholder="Your server name" autocomplete="off" required>
                   </div>
                 </form>
               </div>
@@ -52,6 +52,10 @@ export default {
     create() {
       const serverInputEl = document.getElementById("server-input")
 
+      if (this.isStringEmpty(serverInputEl.value)) {
+        return
+      }
+
       this.createGroup(this.user.uid, serverInputEl.value, "")
 
       serverInputEl.value = ""
@@ -65,6 +69,9 @@ export default {
         const serverInputEl = document.getElementById("server-input")
         serverInputEl?.focus()
       }, 50)
+    },
+    isStringEmpty(str) {
+      return !str.trim().length;
     }
   }
 }
