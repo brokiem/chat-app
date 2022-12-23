@@ -4,16 +4,21 @@
            :id="group.id"
            :title="group.title">
     </Group>
+
+    <li><hr class="rounded"></li>
+
+    <Add/>
   </ul>
 </template>
 
 <script>
 import {useGroup} from "@/firebase/firebase";
 import Group from "@/components/Group.vue";
+import Add from "@/components/Add.vue";
 
 export default {
   name: "Groups",
-  components: {Group},
+  components: {Add, Group},
   setup() {
     const { subscribeGroups } = useGroup()
 

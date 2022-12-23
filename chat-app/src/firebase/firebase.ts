@@ -90,6 +90,21 @@ export function useChannel() {
 }
 
 export function useGroup() {
+    const createGroup = async (owner: string, title: string, iconURL: string) => {
+        const doc = await addDoc(collection(db, "groups"), {
+            owner: owner,
+            title: title,
+            iconURL: iconURL,
+            createdAt: serverTimestamp()
+        });
+
+        await addDoc(collection(db, "channels"), {
+            group: doc.id,
+            title: "General",
+            order: 0
+        });
+    }
+
     const getGroups = async () => {
         const groupsRef = collection(db, "groups");
         const groupsSnap = await getDocs(groupsRef);
@@ -119,5 +134,5 @@ export function useGroup() {
         return groups
     }
 
-    return { getGroup, getGroups, subscribeGroups }
+    return { createGroup, getGroup, getGroups, subscribeGroups }
 }
