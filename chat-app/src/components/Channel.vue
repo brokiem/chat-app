@@ -1,5 +1,5 @@
 <template>
-  <li @click="selectChannel" class="select-none text-white hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-md text-sm mt-0.5 px-2 py-1.5 dark:hover:bg-gray-3/50 dark:focus:ring-gray-700 dark:border-gray-700 cursor-pointer">
+  <li @click="selectChannel" :class="[isActive ? 'active' : '']" class="select-none text-white hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-md text-sm mt-0.5 px-2 py-1.5 dark:hover:bg-gray-3/50 dark:focus:ring-gray-700 dark:border-gray-700 cursor-pointer">
     {{this.title}}
   </li>
 </template>
@@ -21,7 +21,28 @@ export default {
       required: true
     }
   },
+  data() {
+    return {
+      isActive: false
+    }
+  },
+  mounted() {
+    const activeChannel = JSON.parse(localStorage.getItem("selectedChannel"))
+    this.isActive = activeChannel?.id === this.id
+
+    window.addEventListener("storage", this.onStorageChange)
+  },
+  beforeDestroy() {
+    window.removeEventListener("storage", this.onStorageChange)
+  },
   methods: {
+    onStorageChange: function (event) {
+      if (event.key === "selectedChannel") {
+        const channel = JSON.parse(event.newValue)
+
+        this.isActive = channel.id === this.id;
+      }
+    },
     selectChannel: function () {
       // set selected channel on this channel group
       let channels = localStorage.getItem("groups") !== null ? JSON.parse(localStorage.getItem("groups")) : {}
@@ -45,5 +66,7 @@ export default {
 </script>
 
 <style scoped>
-
+.active {
+  @apply bg-gray-3/50;
+}
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <li @click="selectGroup" class="select-none bg-gray-700 rounded-lg w-12 h-12 flex justify-center items-center hover:bg-blue-500 transition duration-200 cursor-pointer">
+  <li @click="selectGroup" :class="[isActive ? 'bg-blue-500' : '']" class="select-none bg-gray-700 rounded-lg w-12 h-12 flex justify-center items-center hover:bg-blue-500 transition duration-200 cursor-pointer">
     {{title.slice(0, 2).toUpperCase() ?? "un"}}
   </li>
 </template>
@@ -24,7 +24,28 @@ export default {
     const { getChannels } = useChannel()
     return { getGroup, getChannels }
   },
+  data() {
+    return {
+      isActive: false
+    }
+  },
+  mounted() {
+    const activeGroup = JSON.parse(localStorage.getItem("selectedGroup"))
+    this.isActive = activeGroup?.id === this.id
+
+    window.addEventListener("storage", this.onStorageChange)
+  },
+  beforeDestroy() {
+    window.removeEventListener("storage", this.onStorageChange)
+  },
   methods: {
+    onStorageChange: function (event) {
+      if (event.key === "selectedGroup") {
+        const group = JSON.parse(event.newValue)
+
+        this.isActive = group.id === this.id
+      }
+    },
     selectGroup: function () {
       localStorage.setItem("selectedGroup", JSON.stringify({
         id: this.id,
