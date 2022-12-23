@@ -3,13 +3,13 @@
     <div class="bg-gray-700/60 h-[100%]">
       <div class="flex flex-col overflow-y-auto">
         <nav class="bg-gray-700 sticky p-3 top-0 w-full z-20">
-          <span class="text-lg font-medium text-gray-700 dark:text-white">{{activeChannel?.title ?? "undefined"}}</span>
+          <span class="text-lg font-medium text-gray-700 dark:text-white">{{activeChannel?.title ?? " "}}</span>
         </nav>
 
         <div class="h-[calc(100vh-96px)] overflow-y-scroll">
           <div class="mt-5"></div>
 
-          <Chat v-if="isLoaded" v-for="({uid, text, photoURL, displayName}, index) in messages" :class="[(index > 0) && messages[index - 1].uid !== uid ? 'mt-4' : '']"
+          <Chat v-if="isLoaded" v-for="({uid, text, photoURL, displayName}, index) in messages" :class="[(index > 0) && messages[index - 1].uid !== uid ? 'mt-4' : '']" class="fade-in"
                 :headless="(index > 0) && messages[index - 1].uid === uid"
                 :author="displayName"
                 :photo-u-r-l="photoURL"

@@ -36,4 +36,16 @@
         scrollbar-color: #888 transparent;
         scrollbar-width: thin
     }
+
+    .fade-in {
+        animation: fade-in 100ms ease forwards;
+    }
+    @keyframes fade-in {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
 }

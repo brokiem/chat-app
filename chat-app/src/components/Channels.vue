@@ -2,7 +2,7 @@
   <main>
     <div class="bg-gray-800 h-[100%]">
       <div class="bg-gray-700/40 p-3">
-        <span class="text-lg font-medium text-gray-700 dark:text-white">{{activeGroup?.title ?? "undefined"}}</span>
+        <span class="text-lg font-medium text-gray-700 dark:text-white">{{activeGroup?.title ?? " "}}</span>
       </div>
 
       <ul class="w-[230px] px-2 pt-4">
