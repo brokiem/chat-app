@@ -87,6 +87,10 @@ export default {
           title: title
         })
       }))
+
+      // focus to input message when switching channel
+      const input = document.getElementById("input-message")
+      input.focus()
     }
   }
 }
