@@ -107,7 +107,8 @@ export function useGroup() {
 
     const getGroups = async () => {
         const groupsRef = collection(db, "groups");
-        const groupsSnap = await getDocs(groupsRef);
+        const q = query(groupsRef, orderBy("createdAt"));
+        const groupsSnap = await getDocs(q);
 
         return groupsSnap.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
     }
@@ -122,7 +123,7 @@ export function useGroup() {
 
     const subscribeGroups = async () => {
         const groupsRef = collection(db, "groups");
-        const q = query(groupsRef);
+        const q = query(groupsRef, orderBy("createdAt"));
 
         const groups = ref([]);
         const unsubscribe = onSnapshot(q, (snapshot) => {
