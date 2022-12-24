@@ -42,15 +42,7 @@ export default {
     }
   },
   created() {
-    if (this.user == null) {
-      this.$watch('user', (newVal) => {
-        if (newVal != null) {
-          this.showCreateChannel = (newVal.uid === this?.activeGroup?.owner)
-        }
-      })
-    } else {
-      this.showCreateChannel = (this.user.uid === this?.activeGroup?.owner)
-    }
+    this.checkPermission()
 
     this.activeGroup = JSON.parse(localStorage.getItem("selectedGroup"))
 
@@ -91,6 +83,19 @@ export default {
       this.subscribeChannels(group.id).then(channels => {
         this.channels = channels
       })
+
+      this.checkPermission()
+    },
+    checkPermission() {
+      if (this.user == null) {
+        this.$watch('user', (newVal) => {
+          if (newVal != null) {
+            this.showCreateChannel = (newVal.uid === this?.activeGroup?.owner)
+          }
+        })
+      } else {
+        this.showCreateChannel = (this.user.uid === this?.activeGroup?.owner)
+      }
     }
   }
 }
