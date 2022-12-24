@@ -22,13 +22,18 @@
       </div>
     </div>
 
-    <div v-if="headless" class="ml-20" @mouseover="isHovered = true" @mouseout="isHovered = false">
-      <div class="flex flex-col max-w-[65vw] items-start">
-        <div>
-          <span class="px-3 py-1.5 rounded-md inline-block bg-gray-4 text-white/90">
-            {{message}}
-          </span>
-          <span v-if="isHovered" class="inline ml-2 leading-none text-xs">{{timeFormat}}</span>
+    <div v-if="headless" class="flex ml-5" @mouseover="isHovered = true" @mouseout="isHovered = false">
+      <div class="overflow-hidden flex items-center relative w-11">
+        <span v-if="isHovered" class="inline ml-2 leading-none text-xs">{{timeFormat}}</span>
+      </div>
+
+      <div class="ml-4">
+        <div class="flex flex-col max-w-[65vw] items-start">
+          <div>
+            <span class="px-3 py-1.5 rounded-md inline-block bg-gray-4 text-white/90">
+              {{message}}
+            </span>
+          </div>
         </div>
       </div>
     </div>
