@@ -7,7 +7,7 @@
 
       <div class="flex flex-nowrap flex-col space-y-1">
         <span class="ml-4 text-md leading-none">{{author}}
-          <span class="ml-3 leading-none text-xs">{{dateFormat + ' ' + timeFormat}}</span>
+          <span class="ml-2 leading-none text-xs">{{dateFormat + ' ' + timeFormat}}</span>
         </span>
 
         <div class="ml-4">
@@ -65,6 +65,17 @@ export default {
     }
   },
   setup(props) {
+    const isToday = (date) => {
+      const today = new Date();
+
+      return today.getFullYear() === date.getFullYear() && today.getMonth() === date.getMonth() && today.getDate() === date.getDate();
+    }
+    const isYesterday = (date) => {
+      const today = new Date();
+
+      return today.getFullYear() === date.getFullYear() && today.getMonth() === date.getMonth() && today.getDate() === (date.getDate() + 1);
+    }
+
     // compensation for firestore timestamp not immediately updated
     const d = props.createdAt == null ? new Date() : props.createdAt.toDate()
     const timeFormat = [
@@ -72,13 +83,14 @@ export default {
       d.getMinutes().toString().length <= 1 ? '0' + d.getMinutes() : d.getMinutes()
     ].join(':')
 
-    const dateFormat = [
+    const dateFormatClean = [
       d.getMonth() + 1,
       d.getDate(),
       d.getFullYear()
     ].join('/')
+    const dateFormat = isToday(d) ? "Today at" : isYesterday(d) ? "Yesterday at" : dateFormatClean
 
-    return {dateFormat, timeFormat}
+    return {timeFormat, dateFormat, dateFormatClean}
   },
   data() {
     return {isHovered: false}
