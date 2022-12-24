@@ -37,7 +37,7 @@
           <div ref="dummy" class="mt-6"></div>
         </div>
 
-        <EmojiPicker v-if="showEmojiPicker" :native="true" display-recent="true" @select="onEmojiSelect" class="fade-in duration-300 absolute right-4 bottom-16"/>
+        <EmojiPicker v-if="showEmojiPicker" :native="true" :display-recent="true" @select="onEmojiSelect" class="fade-in duration-300 absolute right-4 bottom-16"/>
 
         <div class="bg-gray-1 dark:bg-gray-1">
           <form @submit.prevent="onSubmit" class="flex bottom-0 right-0 left-[274px] ml-5 fixed bg-gray-1 dark:bg-gray-1 rounded-t-sm z-20">

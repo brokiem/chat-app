@@ -1,9 +1,17 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /{document=**} {
-      allow read, write: if
-          request.time < timestamp.date(2023, 1, 20);
+    match /groups/{id} {
+    	allow read: if true;
+      allow write: if request.auth != null;
+    }
+    match /channels/{id} {
+    	allow read: if true;
+      allow write: if (request.auth != null);
+    }
+    match /messages/{id} {
+    	allow read: if exists(/databases/$(database)/documents/channels/$(resource.data.channel));
+      allow write: if (request.auth != null);
     }
   }
 }

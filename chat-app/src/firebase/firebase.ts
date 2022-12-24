@@ -48,6 +48,14 @@ export function useMessage() {
         });
     }
 
+    const getMessages = async (channel: string) => {
+        const messagesRef = collection(db, "messages");
+        const q = query(messagesRef, where("channel", "==", channel), orderBy("createdAt"));
+        const messages = await getDocs(q);
+
+        return messages.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
+    }
+
     const subscribeMessages = async (channel: string) => {
         const messagesRef = collection(db, "messages");
         const q = query(messagesRef, where("channel", "==", channel), orderBy("createdAt"));
@@ -64,7 +72,7 @@ export function useMessage() {
         return messages
     }
 
-    return { sendMessage, subscribeMessages }
+    return { sendMessage, getMessages, subscribeMessages }
 }
 
 export function useChannel() {
@@ -77,6 +85,13 @@ export function useChannel() {
     }
 
     const deleteChannel = async (id: string) => {
+        const messagesRef = collection(db, "messages");
+        const q = query(messagesRef, where("channel", "==", id));
+        const messages = await getDocs(q);
+        messages.forEach(doc => {
+            deleteDoc(doc.ref)
+        })
+
         await deleteDoc(doc(db, "channels", id));
     }
 
