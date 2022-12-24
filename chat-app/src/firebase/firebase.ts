@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import {computed, watchEffect, ref} from "vue";
 import {getAuth, GoogleAuthProvider, signInWithPopup} from "firebase/auth"
-import { getFirestore, collection, doc, addDoc, getDocs, serverTimestamp, query, where, limit, orderBy, onSnapshot } from "firebase/firestore";
+import { getFirestore, collection, doc, addDoc, deleteDoc, getDocs, serverTimestamp, query, where, limit, orderBy, onSnapshot } from "firebase/firestore";
 
 const firebaseConfig = {
     apiKey: "AIzaSyBEtV8rdhW7VbRZwS5PRhwhQY8wOdF9bCI",
@@ -76,6 +76,10 @@ export function useChannel() {
         });
     }
 
+    const deleteChannel = async (id: string) => {
+        await deleteDoc(doc(db, "channels", id));
+    }
+
     const getChannels = async (group: string) => {
         const channelsRef = collection(db, "channels");
         const q = query(channelsRef, where("group", "==", group), orderBy("order"));
@@ -100,7 +104,7 @@ export function useChannel() {
         return channels
     }
 
-    return { createChannel, getChannels, subscribeChannels }
+    return { createChannel, deleteChannel, getChannels, subscribeChannels }
 }
 
 export function useGroup() {

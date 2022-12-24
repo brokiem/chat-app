@@ -10,7 +10,7 @@
         <AddChannel v-if="showCreateChannel" :group-id="activeGroup.id"/>
 
         <Channel v-for="channel in channels"
-                 :group-id="activeGroup.id"
+                 :group="activeGroup"
                  :id="channel.id"
                  :title="channel.title">
         </Channel>
