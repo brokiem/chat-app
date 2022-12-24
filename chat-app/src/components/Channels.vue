@@ -6,7 +6,9 @@
       </div>
       <hr class="rounded">
 
-      <ul class="w-[230px] px-2 pt-4">
+      <ul class="w-[230px] px-2 pt-2">
+        <AddChannel v-if="showCreateChannel" :group-id="activeGroup.id"/>
+
         <Channel v-for="channel in channels"
                  :group-id="activeGroup.id"
                  :id="channel.id"
@@ -18,25 +20,38 @@
 </template>
 
 <script>
-import {useChannel, useGroup} from "@/firebase/firebase";
+import {useAuth, useChannel, useGroup} from "@/firebase/firebase";
 import Channel from "@/components/Channel.vue";
+import AddChannel from "@/components/AddChannel.vue";
 
 export default {
   name: "Channels",
-  components: {Channel},
+  components: {AddChannel, Channel},
   setup() {
+    const { isLogin, user } = useAuth()
     const { subscribeChannels } = useChannel()
     const { getGroups } = useGroup()
 
-    return { subscribeChannels, getGroups };
+    return { isLogin, user, subscribeChannels, getGroups };
   },
   data() {
     return {
       activeGroup: null,
-      channels: []
+      channels: [],
+      showCreateChannel: false
     }
   },
   created() {
+    if (this.user == null) {
+      this.$watch('user', (newVal) => {
+        if (newVal != null) {
+          this.showCreateChannel = (newVal.uid === this?.activeGroup?.owner)
+        }
+      })
+    } else {
+      this.showCreateChannel = (this.user.uid === this?.activeGroup?.owner)
+    }
+
     this.activeGroup = JSON.parse(localStorage.getItem("selectedGroup"))
 
     if (this.activeGroup == null) {

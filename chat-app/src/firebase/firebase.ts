@@ -68,6 +68,14 @@ export function useMessage() {
 }
 
 export function useChannel() {
+    const createChannel = async (group: string, title: string, order: number) => {
+        await addDoc(collection(db, "channels"), {
+            group: group,
+            title: title,
+            order: order
+        });
+    }
+
     const getChannels = async (group: string) => {
         const channelsRef = collection(db, "channels");
         const q = query(channelsRef, where("group", "==", group), orderBy("order"));
@@ -92,7 +100,7 @@ export function useChannel() {
         return channels
     }
 
-    return { getChannels, subscribeChannels }
+    return { createChannel, getChannels, subscribeChannels }
 }
 
 export function useGroup() {

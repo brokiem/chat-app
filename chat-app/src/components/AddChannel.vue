@@ -1,8 +1,12 @@
 <template>
-  <li @click="showModal(true)" class="select-none bg-gray-700 hover:text-gray-200 rounded-full w-12 h-12 flex justify-center items-center hover:bg-blue-500 transition duration-200 cursor-pointer">
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+  <li @click="showModal(true)" class="transition duration-200 bg-gray-3/50 select-none text-gray-400 hover:bg-blue-500 hover:text-white focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-md text-sm mt-0.5 px-2 py-1.5 dark:focus:ring-gray-700 dark:border-gray-700 cursor-pointer">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 26" stroke-width="1.5" stroke="currentColor" class="inline w-6 h-6 mr-1">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
     </svg>
+    Create Channel
+  </li>
+  <li>
+    <hr class="rounded mt-2 mb-2">
   </li>
 
   <div v-if="isModalShown" id="modal" tabindex="-1" aria-hidden="true" class="fade-in fixed flex items-center justify-center z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full">
@@ -13,12 +17,12 @@
         <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
           <div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
             <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-              <h3 class="text-xl text-center font-medium leading-6 text-gray-900" id="modal-title">Create a server</h3>
+              <h3 class="text-xl text-center font-medium leading-6 text-gray-900" id="modal-title">Create Channel</h3>
               <div class="mt-8">
                 <form @submit.prevent>
-                  <label for="server-input" class="text-gray-900">Server name</label>
+                  <label for="channel-input" class="text-gray-900">Channel name</label>
                   <div class="relative w-full">
-                    <input type="text" id="server-input" class="bg-gray-50 border border-gray-400 text-gray-900 text-sm rounded-md outline-none block w-full p-2.5 dark:placeholder-gray-400" placeholder="Your server name" autocomplete="off" required>
+                    <input type="text" id="channel-input" class="bg-gray-50 border border-gray-400 text-gray-900 text-sm rounded-md outline-none block w-full p-2.5 dark:placeholder-gray-400" placeholder="New channel" autocomplete="off" required>
                   </div>
                 </form>
               </div>
@@ -35,39 +39,48 @@
 </template>
 
 <script>
-import {useGroup, useAuth} from "@/firebase/firebase";
+import {useChannel} from "@/firebase/firebase";
 
 export default {
-  name: "Add",
+  name: "AddChannel",
+  props: {
+    groupId: {
+      type: String,
+      required: true
+    }
+  },
   setup() {
-    const {createGroup} = useGroup()
-    const {user} = useAuth()
+    const {createChannel, getChannels} = useChannel();
 
-    return {createGroup, user}
+    return {createChannel, getChannels}
   },
   data() {
-    return {isModalShown: false}
+    return {
+      isModalShown: false
+    }
   },
   methods: {
     create() {
-      const serverInputEl = document.getElementById("server-input")
+      const channelInputEl = document.getElementById("channel-input")
 
-      if (this.isStringEmpty(serverInputEl.value)) {
+      if (this.isStringEmpty(channelInputEl.value)) {
         return
       }
 
-      this.createGroup(this.user.uid, serverInputEl.value, "")
+      this.getChannels(this.groupId).then(channels => {
+        this.createChannel(this.groupId, channelInputEl.value, channels.length)
 
-      serverInputEl.value = ""
-      this.showModal(false)
+        channelInputEl.value = ""
+        this.showModal(false)
+      })
     },
     showModal(show) {
       this.isModalShown = show;
 
       // hack (idk why)
       setTimeout(() => {
-        const serverInputEl = document.getElementById("server-input")
-        serverInputEl?.focus()
+        const channelInputEl = document.getElementById("channel-input")
+        channelInputEl?.focus()
       }, 50)
     },
     isStringEmpty(str) {
@@ -76,7 +89,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-</style>

@@ -17,6 +17,10 @@ export default {
     title: {
       type: String,
       required: true
+    },
+    owner: {
+      type: String,
+      required: true
     }
   },
   setup() {
@@ -49,13 +53,15 @@ export default {
     selectGroup: function () {
       localStorage.setItem("selectedGroup", JSON.stringify({
         id: this.id,
-        title: this.title
+        title: this.title,
+        owner: this.owner
       }))
       window.dispatchEvent(new StorageEvent("storage", {
         key: "selectedGroup",
         newValue: JSON.stringify({
           id: this.id,
-          title: this.title
+          title: this.title,
+          owner: this.owner
         })
       }))
 

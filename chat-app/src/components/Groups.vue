@@ -2,23 +2,24 @@
   <ul class="max-h-screen space-y-2 bg-gray-2 p-2 overflow-y-auto overflow-x-hidden max-w-[65px] no-scrollbar">
     <Group v-for="group in groups"
            :id="group.id"
-           :title="group.title">
-    </Group>
+           :title="group.title"
+           :owner="group.owner"
+    ></Group>
 
     <li><hr class="rounded"></li>
 
-    <Add/>
+    <AddServer/>
   </ul>
 </template>
 
 <script>
 import {useGroup} from "@/firebase/firebase";
 import Group from "@/components/Group.vue";
-import Add from "@/components/Add.vue";
+import AddServer from "@/components/AddServer.vue";
 
 export default {
   name: "Groups",
-  components: {Add, Group},
+  components: {AddServer, Group},
   setup() {
     const { subscribeGroups } = useGroup()
 
